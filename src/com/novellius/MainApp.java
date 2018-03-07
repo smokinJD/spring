@@ -1,6 +1,7 @@
 package com.novellius;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,28 +26,18 @@ public class MainApp {
 //		admin.setFechaCreacion(ts);
 		
 		try{
-		
-			Admin admin = adminDao.findById(1);
-			System.out.println("Admin con Id 1= "+ admin);
 			
-			admin.setNombre("Julen");
-			admin.setCargo("Boss");
+			List <Admin> admins = new ArrayList <Admin>();
 			
-			if (adminDao.update(admin)){
-				System.out.println("Actualizado Correctamente: "+ admin);
+			admins.add(new Admin(3, "Julen", "Boss", ts));
+			admins.add(new Admin(4, "Roku", "Gerente", ts));
+			admins.add(new Admin(5, "Irati", "Programadora", ts));
+			
+			int[] vueltas = adminDao.saveAll(admins);
+			
+			for (int i : vueltas){
+				System.out.println("Fila Afectadas Correctamente "+ i);
 			}
-			
-			if (adminDao.delete(admin.getId())){
-				System.out.println("Admin "+ admin.getNombre() + " eliminado correctamente");
-			}
-			
-			//Funciones Insert y buscar por.
-//		adminDao.save(admin);
-//		
-//		System.out.println(adminDao.findById(1));
-//		System.out.println(adminDao.findById(3));
-//		
-//		System.out.println(adminDao.findByNombre("r").toString());
 		 
 		}catch (CannotGetJdbcConnectionException ex){
 			ex.printStackTrace();

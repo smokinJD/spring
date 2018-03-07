@@ -14,6 +14,19 @@ public class Admin {
 		return "Administrador [id=" + id + ", nombre=" + nombre + ", cargo=" + cargo + "]";
 	}
 
+	//Constructor
+	public Admin() {
+		super();
+	}
+	
+	public Admin(int id, String nombre, String cargo, Timestamp fechaCreacion) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.cargo = cargo;
+		this.fechaCreacion = fechaCreacion;
+	}
+
 	//Getter and Setters
 	public int getId() {
 		return id;

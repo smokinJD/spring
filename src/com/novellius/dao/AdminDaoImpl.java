@@ -12,7 +12,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.novellius.pojo.Admin;
 import com.novellius.pojo.AdminRowMapper;
@@ -75,6 +78,13 @@ public class AdminDaoImpl implements AdminDao{
 	public boolean delete(int id) {
 		// TODO Auto-generated method stub
 		return JdbcTemplate.update("DELETE FROM Admin WHERE Id=:id", new MapSqlParameterSource("id", id))==1;
+	}
+	
+	@Transactional
+	@Override
+	public int[] saveAll(List<Admin> admins) {
+		SqlParameterSource[] batchArgs = SqlParameterSourceUtils.createBatch(admins.toArray());
+		return JdbcTemplate.batchUpdate("Insert into Admin (Id, Nombre, Cargo, FechaCreacion) values (:id, :nombre, :cargo, :fechaCreacion)", batchArgs);
 	}
 
 }
