@@ -19,18 +19,34 @@ public class MainApp {
 		AdminDao adminDao= (AdminDao)aplicationContext.getBean("adminDao");
 		
 		Timestamp ts = new Timestamp(new Date().getTime());
-		Admin admin = new Admin();
-		admin.setNombre("Pepe");
-		admin.setCargo("Analista");
-		admin.setFechaCreacion(ts);
+//		Admin admin = new Admin();
+//		admin.setNombre("Miriam");
+//		admin.setCargo("SubGerente");
+//		admin.setFechaCreacion(ts);
 		
 		try{
-		adminDao.save(admin);
 		
-		List<Admin> admins = adminDao.findAll();
-		 for (Admin admin2:admins){
-			 System.out.println(admin2);
-		 }
+			Admin admin = adminDao.findById(1);
+			System.out.println("Admin con Id 1= "+ admin);
+			
+			admin.setNombre("Julen");
+			admin.setCargo("Boss");
+			
+			if (adminDao.update(admin)){
+				System.out.println("Actualizado Correctamente: "+ admin);
+			}
+			
+			if (adminDao.delete(admin.getId())){
+				System.out.println("Admin "+ admin.getNombre() + " eliminado correctamente");
+			}
+			
+			//Funciones Insert y buscar por.
+//		adminDao.save(admin);
+//		
+//		System.out.println(adminDao.findById(1));
+//		System.out.println(adminDao.findById(3));
+//		
+//		System.out.println(adminDao.findByNombre("r").toString());
 		 
 		}catch (CannotGetJdbcConnectionException ex){
 			ex.printStackTrace();

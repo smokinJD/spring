@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.novellius.pojo.Admin;
+import com.novellius.pojo.AdminRowMapper;
 
 @Component("adminDao")
 public class AdminDaoImpl implements AdminDao{
@@ -53,6 +54,27 @@ public class AdminDaoImpl implements AdminDao{
 			}
 			
 		});
+	}
+	@Override
+	public Admin findById(int id) {
+		//este metodo no sabe que lo que tiene que devolver es un objeto por lo que hay que ponerle (Admin) al principio
+		//return (Admin) JdbcTemplate.query("Select * FROM Admin WHERE Id=:id", new MapSqlParameterSource("id", id), new AdminRowMapper());
+		
+		return JdbcTemplate.queryForObject("Select * FROM Admin WHERE Id=:id", new MapSqlParameterSource("id", id), new AdminRowMapper());
+	}
+	@Override
+	public List<Admin> findByNombre(String nombre) {
+		// TODO Auto-generated method stub
+		return JdbcTemplate.query("Select * FROM Admin WHERE Nombre LIKE :nombre", new MapSqlParameterSource("nombre", "%" + nombre + "%"), new AdminRowMapper());
+	}
+	@Override
+	public boolean update(Admin admin) {
+		return JdbcTemplate.update("UPDATE Admin SET Nombre=:nombre, Cargo=:cargo, FechaCreacion=:fechaCreacion WHERE Id=:id", new BeanPropertySqlParameterSource(admin))==1;
+	}
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return JdbcTemplate.update("DELETE FROM Admin WHERE Id=:id", new MapSqlParameterSource("id", id))==1;
 	}
 
 }
