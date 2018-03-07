@@ -6,17 +6,14 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	
-	<bean id="admin" class="com.novellius.Administrador">
-		<property name="id" value="7"></property>
-		<property name="nombre" value="Julen"></property>
-		<property name="direccion" ref="direccion"></property>
-	</bean>
 	
-	
-	<!-- esto sirve para hacer el set de la clase instanciada Direccion pero sin anotaciones -->
-	<!-- <bean id="direccion" class="com.novellius.Direccion">
-		<constructor-arg name="calle" value="Erandio"></constructor-arg>
-		<constructor-arg name="cp" value="777"></constructor-arg>
-	</bean> -->
 	<context:component-scan base-package="com.novellius"></context:component-scan>
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	<property name="url" value="jdbc:mysql://localhost:3307/springdb"></property>
+	<property name="username" value="root"></property>
+	<property name="password" value="root"></property>
+	
+	</bean>
 </beans>
